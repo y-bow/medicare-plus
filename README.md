@@ -1,7 +1,5 @@
 # MediCare Plus | Premium Healthcare Services
 
-![Website Preview](https://via.placeholder.com/800x400?text=MediCare+Plus+Website+Preview)
-
 **MediCare Plus** is a high-end, boutique-style healthcare website designed to provide a luxurious and trustworthy digital experience for patients. Moving away from generic medical templates, this project focuses on an "editorial" aesthetic, combining sophisticated typography with modern web design principles to reflect excellence in medical care.
 
 ## 🚀 Live Demo
@@ -73,5 +71,5 @@ To run this project locally:
 ---
 
 ## 👨‍💻 Author
-**Vaibhav**  
+**B.Vaibhav**  
 *Student Assignment - Mantra Healthcare Project*
