@@ -90,6 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         });
+    }
+
     // 5. Chat Widget Functionality
     const chatToggleBtn = document.getElementById('chat-toggle-btn');
     const chatCloseBtn = document.getElementById('chat-close-btn');
