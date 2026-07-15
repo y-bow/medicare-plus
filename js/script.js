@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (isValid) {
-                fetch('https://v-ideapad.taile0023f.ts.net/webhook/9cbb4fc4-c932-4840-94c9-a57eeb5f0414', {
+                fetch('https://v-ideapad.taile0023f.ts.net/webhook-test/chat', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
