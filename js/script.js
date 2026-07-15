@@ -90,6 +90,67 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         });
+    // 5. Chat Widget Functionality
+    const chatToggleBtn = document.getElementById('chat-toggle-btn');
+    const chatCloseBtn = document.getElementById('chat-close-btn');
+    const chatWindow = document.getElementById('chat-window');
+    const chatMessages = document.getElementById('chat-messages');
+    const chatInput = document.getElementById('chat-input');
+    const chatSendBtn = document.getElementById('chat-send-btn');
+
+    if (chatToggleBtn && chatWindow) {
+        const toggleChat = () => {
+            chatWindow.classList.toggle('hidden');
+        };
+
+        chatToggleBtn.addEventListener('click', toggleChat);
+        chatCloseBtn.addEventListener('click', toggleChat);
+
+        const appendMessage = (text, sender) => {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', `${sender}-message`);
+            messageDiv.innerText = text;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        };
+
+        const sendMessage = async () => {
+            const message = chatInput.value.trim();
+            if (!message) return;
+
+            appendMessage(message, 'user');
+            chatInput.value = '';
+
+            try {
+                const response = await fetch('https://v-ideapad.taile0023f.ts.net/webhook-test/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    // Assuming the chatbot returns { response: "..." } or just the text
+                    const botResponse = data.response || data.message || (typeof data === 'string' ? data : 'I am here to help!');
+                    appendMessage(botResponse, 'bot');
+                } else {
+                    appendMessage('Sorry, I am having trouble connecting right now.', 'bot');
+                }
+            } catch (error) {
+                console.error('Chat error:', error);
+                appendMessage('Sorry, something went wrong. Please try again later.', 'bot');
+            }
+        };
+
+        chatSendBtn.addEventListener('click', sendMessage);
+
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
     }
 });
 
