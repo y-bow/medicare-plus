@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (isValid) {
-                fetch('https://v-ideapad.taile0023f.ts.net/webhook-test/f50f899b-32c2-493b-9bf5-05dec94a27a9', {
+                fetch('https://v-ideapad.taile0023f.ts.net/webhook/9cbb4fc4-c932-4840-94c9-a57eeb5f0414', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
