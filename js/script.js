@@ -69,9 +69,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (isValid) {
-                // Using a more "premium" alert style would be better, but alert is fine for this task
-                alert('Thank you for your inquiry. Our concierge will contact you shortly.');
-                contactForm.reset();
+                fetch('https://v-ideapad.taile0023f.ts.net/webhook-test/f50f899b-32c2-493b-9bf5-05dec94a27a9', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, email, message }),
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Thank you for your inquiry. Our concierge will contact you shortly.');
+                        contactForm.reset();
+                    } else {
+                        alert('Something went wrong. Please try again later.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Something went wrong. Please try again later.');
+                });
             }
         });
     }
