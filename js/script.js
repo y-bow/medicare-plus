@@ -100,6 +100,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatInput = document.getElementById('chat-input');
     const chatSendBtn = document.getElementById('chat-send-btn');
 
+    // Session Management
+    let sessionId = localStorage.getItem('chat_session_id');
+    if (!sessionId) {
+        sessionId = 'session_' + Math.random().toString(36).substring(2, 11) + Date.now();
+        localStorage.setItem('chat_session_id', sessionId);
+    }
+
     if (chatToggleBtn && chatWindow) {
         const toggleChat = () => {
             chatWindow.classList.toggle('hidden');
@@ -114,6 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
             messageDiv.innerText = text;
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
+            return messageDiv;
         };
 
         const sendMessage = async () => {
@@ -123,18 +131,29 @@ document.addEventListener('DOMContentLoaded', () => {
             appendMessage(message, 'user');
             chatInput.value = '';
 
+            // Loading indicator
+            const loadingDiv = appendMessage('...', 'bot');
+
             try {
                 const response = await fetch('https://v-ideapad.taile0023f.ts.net/webhook-test/chat', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ message }),
+                    body: JSON.stringify({
+                        session: sessionId,
+                        message: message
+                    }),
                 });
+
+                // Remove loading indicator
+                if (chatMessages.contains(loadingDiv)) {
+                    chatMessages.removeChild(loadingDiv);
+                }
 
                 if (response.ok) {
                     const data = await response.json();
-                    // Assuming the chatbot returns { response: "..." } or just the text
+                    // Extract AI reply
                     const botResponse = data.response || data.message || (typeof data === 'string' ? data : 'I am here to help!');
                     appendMessage(botResponse, 'bot');
                 } else {
@@ -142,6 +161,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (error) {
                 console.error('Chat error:', error);
+                // Remove loading indicator
+                if (chatMessages.contains(loadingDiv)) {
+                    chatMessages.removeChild(loadingDiv);
+                }
                 appendMessage('Sorry, something went wrong. Please try again later.', 'bot');
             }
         };
